@@ -1,0 +1,11 @@
+<h1>{{ title }}</h1>
+{% if object %}
+	<p>Actual URL : {{ object.url }}</p>
+	<p>Shoten URL : <a href="http://127.0.0.1:8000/{{ object.shortcode }}">http://127.0.0.1:8000/{{ object.shortcode }}</a></p>
+	<a href="/">+NEW</a>
+{% else %}
+<form action=. method="POST">{% csrf_token %}
+	{{ form }}
+	<input type="submit" value="SHORTEN URL">
+</form>
+{% endif %}
