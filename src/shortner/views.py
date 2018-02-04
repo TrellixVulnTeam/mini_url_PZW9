@@ -7,12 +7,15 @@ from .validator import validate_url
 # Create your views here.
 def home(request):
 	form = url_form()
+	flag = False
 	context = {
-		'form' : form
+		'form' : form,
+		'flag' : flag
 	}
 	if request.method == 'POST':
-		#form = url_form(request.POST)
+		form = url_form(request.POST)
 		if form.is_valid():
+			flag = True
 			new_url = form.cleaned_data.get('url')
 			new_url = validate_url(new_url)
 			exists = shorten_url.objects.filter(url=new_url).exists()
@@ -21,8 +24,8 @@ def home(request):
 			else:
 				obj = shorten_url.objects.filter(url=new_url).first()
 			context = {
-				'title':'va.com',
 				'object':obj,
+				'flag' : flag
 			}
 	return render(request,"shortner/home.html", context)
 
